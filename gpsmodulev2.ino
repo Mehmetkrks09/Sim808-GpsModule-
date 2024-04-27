@@ -5,7 +5,7 @@ SoftwareSerial sim808(2, 3);  // RX, TX
 unsigned long donguzaman = 0;
 unsigned long serialzaman = 0;
 
-String phone_no = "+905010847207";  // Telefon numarası
+String phone_no = "PHONE_NO";  // +90 Telefon numarası
 String msggelen;
 String msggiden;
 String msg;
@@ -40,46 +40,6 @@ void checkSignalStrength() {
   }
 }
 
-
-void deneme() {
-  checkSignalStrength();
-  delay(500);
-  sim808.println("AT+CMGF=1");  // SMS gönderme formatını metin moduna ayarla
-  delay(1000);
-
-  while (signalStrength < 2) {
-    checkSignalStrength();
-    delay(1000);
-  }
-  Serial.println("SMS Gönderiyorum");
-  sim808.print("AT+CMGS=\"");
-  sim808.print("+905438737595");
-  sim808.println("\"");
-
-  delay(1000);
-
-  sim808.print("konum");
-  delay(100);
-  sim808.println((char)26);  // CTRL+Z karakteri (SMS gönderme komutu için)
-  delay(1000);
-  Serial.print("sim 808 SMS gelen : ");
-  // Cevabı oku
-  while (sim808.available()) {
-    char c = sim808.read();
-    Serial.write(c);
-  }
-  Serial.println();
-
-
-
-  if (sim808.find("OK")) {
-    Serial.println("SMS başarıyla gönderildi.");
-  } else {
-    Serial.println("SMS gönderirken bir hata oluştu. yeniden deniyorum");
-    delay(1000);
-    gpskonum();
-  }
-}
 
 
 void sendSMS(String number, String message,String hiz,String tarih,String saat) {
@@ -240,7 +200,7 @@ void setup() {
 
   Serial.println("Bağlantı başarılı!");
 
-  setSMSC("+905598008000");
+  setSMSC("+905598008000"); // Operatörünüzün farklı olabilir Kontrol ediniz (TT ye uygun)
   checkSignalStrength();
   setsim808();  // Sadece ilk çalıştırmada kullanılır, sonrasında yorum satırına alınabilir.
   delay(5000);
